@@ -1,0 +1,5 @@
+{
+  "name": "YouTube Notes Generator",
+  "description": "Generate notes from YouTube videos using AI",
+  "requestFramePermissions": []
+}
