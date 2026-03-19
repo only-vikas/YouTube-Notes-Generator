@@ -52,7 +52,8 @@ export async function POST(req: Request) {
             videoTitle = item.snippet.title;
             channelName = item.snippet.channelTitle;
           }
-        } else {
+        } else if (ytRes.status !== 403) {
+          // Only log if it's not a 403 (which usually means API key is missing/invalid, so fallback is expected)
           console.warn(`YouTube API error: ${ytRes.status} ${ytRes.statusText}. Falling back to oEmbed.`);
         }
       } catch (ytError) {

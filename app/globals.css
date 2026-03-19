@@ -1,1 +1,65 @@
 @import "tailwindcss";
+
+@theme {
+  --color-primary: #cd2bee;
+  --color-accent-cyan: #06b6d4;
+  --color-accent-magenta: #ec4899;
+  --color-background-light: #f8f6f8;
+  --color-background-dark: #0a050c;
+  --color-void-black: #020103;
+
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+  --font-mono: "JetBrains Mono", monospace;
+  --font-sans: "Inter", sans-serif;
+
+  --radius-lg: 0.5rem;
+  --radius-xl: 0.75rem;
+  --radius-2xl: 1.5rem;
+  --radius-3xl: 2rem;
+}
+
+@layer utilities {
+  .glass {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  .glass-morphism {
+    background: rgba(31, 16, 34, 0.6);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid rgba(205, 43, 238, 0.2);
+  }
+  .neon-glow {
+    box-shadow: 0 0 20px rgba(205, 43, 238, 0.4);
+  }
+  .neon-pulse {
+    box-shadow: 0 0 15px rgba(205, 43, 238, 0.4), 0 0 30px rgba(205, 43, 238, 0.2);
+  }
+  .mesh-gradient {
+    background-color: #0a050c;
+    background-image: 
+      radial-gradient(at 0% 0%, hsla(285, 84%, 55%, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 0%, hsla(189, 93%, 43%, 0.15) 0px, transparent 50%),
+      radial-gradient(at 100% 100%, hsla(320, 84%, 55%, 0.1) 0px, transparent 50%),
+      radial-gradient(at 0% 100%, hsla(285, 84%, 55%, 0.1) 0px, transparent 50%);
+  }
+  .data-stream-bg {
+    background: radial-gradient(circle at center, #1f1022 0%, #0a050c 100%);
+  }
+  .refraction-layer {
+    background: linear-gradient(135deg, rgba(0, 242, 255, 0.05) 0%, transparent 50%, rgba(205, 43, 238, 0.05) 100%);
+  }
+  .animate-marquee {
+    animation: marquee 30s linear infinite;
+  }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+body {
+  @apply bg-background-dark text-slate-100 font-sans selection:bg-primary/30;
+}

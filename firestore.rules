@@ -1,0 +1,69 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // ===============================================================
+    // Assumed Data Model
+    // ===============================================================
+    //
+    // Collection: users/{userId}/notes
+    // Document ID: [auto-generated]
+    // Fields:
+    //   - userId: string (required, immutable) - The ID of the user who generated the note.
+    //   - videoUrl: string (required) - The URL of the YouTube video.
+    //   - videoTitle: string (optional) - The title of the YouTube video.
+    //   - content: string (required) - The generated markdown content.
+    //   - noteType: string (optional) - The type of note generated.
+    //   - createdAt: timestamp (required, immutable) - When the note was generated.
+    //
+    // ===============================================================
+
+    // ===============================================================
+    // Helper Functions
+    // ===============================================================
+    
+    // Check if the user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+    
+    // Check if user owns the resource (for user-owned documents)
+    function isOwner(userId) {
+      return isAuthenticated() && request.auth.uid == userId;
+    }
+    
+    // Validate required fields exist
+    function hasRequiredFields(fields) {
+      return request.resource.data.keys().hasAll(fields);
+    }
+    
+    // Validate that the document contains only the allowed fields
+    function hasOnlyAllowedFields(fields) {
+      return request.resource.data.keys().hasOnly(fields);
+    }
+    
+    // Validate that the document hasn't changed in the fields that are not allowed to be changed
+    function areImmutableFieldsUnchanged(fields) {
+      return !request.resource.data.diff(resource.data).affectedKeys().hasAny(fields);
+    }
+
+    // Domain Validators
+    function isValidNote(data, userId) {
+      return data.userId == userId &&
+             data.videoUrl is string && data.videoUrl.size() > 0 && data.videoUrl.size() < 2000 &&
+             (!('videoTitle' in data) || (data.videoTitle is string && data.videoTitle.size() < 2000)) &&
+             data.content is string && data.content.size() > 0 && data.content.size() < 1000000 &&
+             (!('noteType' in data) || (data.noteType is string && data.noteType.size() < 100)) &&
+             data.createdAt is timestamp;
+    }
+
+    match /users/{userId}/notes/{noteId} {
+      allow read: if isOwner(userId);
+      allow create: if isOwner(userId) && isValidNote(request.resource.data, userId);
+      allow update: if isOwner(userId) && 
+                    isValidNote(request.resource.data, userId) && 
+                    areImmutableFieldsUnchanged(['userId', 'createdAt']);
+      allow delete: if isOwner(userId);
+    }
+  }
+}
