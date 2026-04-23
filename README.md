@@ -2,6 +2,11 @@
 
 NoteOS is the intelligence layer for YouTube. It transforms any lecture, podcast, or tutorial into high-fidelity knowledge assets instantly.
 
+
+<img width="933" height="749" alt="Screenshot 2026-04-24 004629" src="https://github.com/user-attachments/assets/ec93808a-9cb7-4967-8ba0-4fe79cf04fef" />
+
+
+
 ## Features
 
 - **Instant Note Generation:** Paste any YouTube URL and generate comprehensive notes in seconds.
