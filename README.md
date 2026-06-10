@@ -90,10 +90,6 @@ Open [http://localhost:3000](http://localhost:3000) with your browser to see the
 
 This project is optimized for deployment on Vercel or any platform that supports Next.js.
 
-1. Push your code to GitHub.
-2. Import the repository into Vercel.
-3. Add your Environment Variables (`NEXT_PUBLIC_GEMINI_API_KEY`, etc.) in the Vercel dashboard.
-4. Deploy!
 
 ## License
 
